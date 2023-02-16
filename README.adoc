@@ -1,0 +1,208 @@
+= Conflicts with Git
+
+
+== Introduction
+
+When collaborating with other people using Git
+or other version control systems, occasionally
+changes are made to the same file and need to be
+integrated.  Here, you will experience what to
+do in such a situation.
+
+== Setup a repository
+
+* Create a folder in a convenient location and 
+initiate a git repository within it
+
+----
+$ mkdir git-conflict
+$ cd git-conflict
+$ git init
+----
+
+* Create a file within the repository
+
+----
+$ nano README.md
+----
+
+* Add the following text to the file
+
+----
+# README
+
+This is a markdown document.  We can
+use this file to demonstrate how to
+resolve conflicts when using a git
+repository.
+----
+
+* Save the file and then exit the 
+editor. Add and commit the file to git 
+
+----
+$ git add README.md
+$ git commit -m "Add description"
+----
+
+* Now create a new branch, and go into
+it
+
+----
+$ git branch update-branch
+$ git checkout update-branch
+----
+
+* Edit the README.md file
+
+----
+$ nano README.md
+----
+
+* Add text to the file so it contains
+
+----
+# README
+
+This is a markdown document.  We can
+use this file to demonstrate how to
+resolve conflicts when using a git
+repository.
+
+## Learning about Markdown
+
+Markdown is a text format that is easy
+to read and can convey structural
+information.
+----
+
+* Save the file, exit your editor and
+then add the file to git
+
+----
+$ git add README.md
+$ git commit -m "Add information on Markdown"
+----
+
+* Now go back to the main branch
+
+----
+$ git checkout main
+----
+
+* Open the README.md file
+
+----
+$ nano README.md
+----
+
+* As it is on a different branch,
+it has not changed and should contain
+
+----
+# README
+
+This is a markdown document.  We can
+use this file to demonstrate how to
+resolve conflicts when using a git
+repository.
+----
+
+* Update it so it contains
+
+----
+# README
+
+This is a markdown document.  We can
+use this file to demonstrate how to
+resolve conflicts when using a git
+repository.
+
+## Something on AsciiDoc
+
+AsciiDoc is another text only format
+that is easy to read and has
+structural information.
+----
+
+* After saving the file and exiting your
+editor, try to merge changes from the branch
+update-branch
+
+----
+$ git merge update-branch
+----
+
+* You will get the message
+
+----
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+----
+
+* Open README.md in an editor and
+you will find it contains
+
+----
+# README
+
+This is a markdown document.  We can
+use this file to demonstrate how to
+resolve conflicts when using a git
+repository.
+
+<<<<<<< HEAD
+## Something on AsciiDoc
+
+AsciiDoc is another text only format
+that is easy to read and has
+structural information.
+=======
+## Learning about Markdown
+
+Markdown is a text format that is easy
+to read and can convey structural
+information.
+>>>>>>> update-branch
+----
+
+* You can see the different sets of
+changes.  In this case, choose to keep
+both changes so edit the file to contain
+
+----
+# README
+
+This is a markdown document.  We can
+use this file to demonstrate how to
+resolve conflicts when using a git
+repository.
+
+## Something on AsciiDoc
+
+AsciiDoc is another text only format
+that is easy to read and has
+structural information.
+
+## Learning about Markdown
+
+Markdown is a text format that is easy
+to read and can convey structural
+information.
+----
+
+* Now commit your changes
+
+----
+$ git add README.md
+$ git commit -m "Resolve conflict"
+----
+
+== Further Resources
+
+* https://swcarpentry.github.io/git-novice/
+* https://codeforphilly.github.io/decentralized-data/tutorials/actually-using-git/lessons/conflicting-branches/
+* https://git-scm.com/book/en/v2
+* https://asciidoc.org/
+* https://docs.asciidoctor.org/asciidoc/latest
